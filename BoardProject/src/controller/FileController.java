@@ -39,7 +39,7 @@ public class FileController extends HttpServlet {
 		request.setCharacterEncoding("UTF-8");
 		
 		int size =10 * 1024 * 1024; //10MB
-		String savePath="D:/DDB/OKAY/BoardProject/WebContent/fileUpload";
+		String savePath="D://DDB//OKAY//BoardProject//WebContent//fileUpload";
 		//업로드 파일 저장 경로 
 		
 		MultipartRequest multi =new MultipartRequest(

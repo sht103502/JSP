@@ -22,11 +22,10 @@
 			<tr>
 				<td>${board.bNum}</td>
 				<td>${board.bWriter}</td>
-				<td>${board.bTitle}</td>
+				<td><a href="boardView?bNum=${board.bNum}&page=${paging.page}">${board.bTitle}</a></td>
 				<td>${board.bDate}</td>
 				<td>${board.bHit}</td>
 			</tr>
-
 		</c:forEach>
 	</table>
 
@@ -65,3 +64,12 @@
 	 </c:if>
 </body>
 </html>
+
+
+
+<!-- <a href="boardView?bNum=${board.bNum}&page=${paging.page}">-->
+<!-- href =boardView => form태그에서 action=boardView -->
+<!-- bNum=${board.bNum} form태그에서 name=bNum을 &{board.bNum}으로  -->
+<!-- method=GET 방식으로 넘긴 것과 같은 것을 의미한다. -->
+
+

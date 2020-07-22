@@ -60,4 +60,10 @@ public class BoardDTO {
 	public void setbFile(String bFile) {
 		this.bFile = bFile;
 	}
+	@Override
+	public String toString() {
+		return "BoardDTO [bNum=" + bNum + ", bWriter=" + bWriter + ", bPassword=" + bPassword + ", bTitle=" + bTitle
+				+ ", bContent=" + bContent + ", bDate=" + bDate + ", bHit=" + bHit + ", bFile=" + bFile + "]";
+	}
+	
 }

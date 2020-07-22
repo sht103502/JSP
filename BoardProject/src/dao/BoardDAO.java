@@ -113,4 +113,88 @@ public class BoardDAO {
 		return boardList;
 	}
 
+	public int BoardHit(int bNum) {
+		String sql ="UPDATE BOARDTT SET BHIT = BHIT+1 WHERE BNUM =?";
+		int hitResult =0;
+		
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, bNum);
+			hitResult =pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		return hitResult;
+	}
+
+	public BoardDTO BoardView(int bNum) {
+		String sql ="SELECT *FROM BOARDTT WHERE BNUM=?";
+		BoardDTO boardView =new BoardDTO();
+		
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setInt(1, bNum);
+			rs=pstmt.executeQuery();
+			
+			if(rs.next()) {//sqld에한개가뜨기때문에 while이 아닌 if를쓴다.
+				boardView.setbNum(rs.getInt("BNUM"));
+				boardView.setbWriter(rs.getString("BWRITER"));
+				boardView.setbPassword(rs.getString("BPASSWORD"));
+				boardView.setbTitle(rs.getString("BTITLE"));
+				boardView.setbContent(rs.getString("BCONTENT"));
+				boardView.setbDate(rs.getString("BDATE"));
+				boardView.setbHit(rs.getInt("BHIT"));
+				boardView.setbFile(rs.getString("BFILE"));
+				
+				//잘들어갔는지 확인하기
+				boardView.toString();
+				
+			}
+			
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+			close(rs);
+		}
+		
+		return boardView;
+	}
+	public int boardDelete(String bNum) {
+		String sql="DELETE FROM BOARDTT WHERE BNUM=?";
+		int deleteResult =0;
+		try {
+			pstmt=con.prepareStatement(sql);
+			pstmt.setString(1, bNum);
+			deleteResult =pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally{
+			close(pstmt);
+		}
+		return deleteResult;
+	}
+	
+	public int BoardModify(BoardDTO board) {
+		String sql="UPDATE BOARDTT SET BTITLE=?, BCONTENT=?,BFILE=? WHERE BNUM=?";
+		int modiResult =0;
+		
+		try {
+			pstmt= con.prepareStatement(sql);
+			pstmt.setString(1,board.getbTitle());
+			pstmt.setString(2,board.getbContent());
+			pstmt.setString(3,board.getbFile());
+			pstmt.setInt(4,board.getbNum());
+			modiResult =pstmt.executeUpdate();
+		}catch(SQLException e) {
+			e.printStackTrace();
+		}finally {
+			close(pstmt);
+		}
+		System.out.println("modifyResult 결과값 : "+modiResult);
+		return modiResult;
+	}
+
 }
