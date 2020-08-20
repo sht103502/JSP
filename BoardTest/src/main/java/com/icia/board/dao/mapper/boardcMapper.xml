@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+ "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+ 
+ <mapper namespace="Board">
+ 	<insert id="boardWriteFile" parameterType="board">
+ 		INSERT INTO BOARDTEST
+		VALUES(BNUM_SEQ.nextval, #{bwriter}, #{bpassword}, #{btitle}, #{bcontents}, SYSDATE, 0, #{bfilename})
+ 	
+ 	</insert>
+ 	
+ 	<select id="boardList" resultType="board">
+ 		SELECT*FROM BOARDTEST
+ 	</select>
+ 	
+ 	<select id="listCount" resultType="int">
+ 		SELECT COUNT(*) FROM BOARDTEST
+ 	</select>
+ 	
+ 	<!-- 페이징 처리 -->
+ 	<select id ="pagingList" parameterType="paging" resultType="board">
+ 		SELECT * FROM BOARDLISTT WHERE RN BETWEEN #{startrow} AND #{endrow}
+ 	</select>
+ 	
+ 	<select id="boardView"  parameterType="int" resultType="board">
+ 		SELECT * FROM BOARDTEST WHERE BNUM = #{bnum}
+ 	</select>
+ 	
+ 	<!-- 조회수 증가 -->
+ 	<update id ="boardHit" parameterType="int">
+ 		UPDATE BOARDTEST SET BHIT = BHIT + 1 WHERE BNUM = #{bnum}
+ 	</update>
+ 	
+ 	<!-- 게시글 삭제 -->
+ 	<delete id="boardDelete" parameterType="int">
+ 		DELETE FROM BOARDTEST WHERE BNUM = #{bnum} 
+ 	</delete>
+ 	
+ 	<!-- 수정페이지 이동 -->
+ 	<select id="boardNodify"  parameterType="int" resultType="board">
+ 		SELECT * FROM BOARDTEST WHERE BNUM = #{bnum}
+ 	</select>
+ 	
+ 	<!-- 수정 -->
+ 	<update id ="modifyProcess" parameterType="board">
+ 		UPDATE BOARDTEST SET BWRITER=#{bwriter}, BPASSWORD=#{bpassword}, BTITLE=#{btitle}, BCONTENTS=#{bcontents},
+ 		BFILENAME =#{bfilename} WHERE BNUM =#{bnum}
+  	</update>
+  	
+  	<!-- 게시판검색1 -->
+  	<select id="search1" parameterType="String" resultType="board">
+  		SELECT * FROM BOARDlISTT WHERE BWRITER LIKE '%'||#{keyword}||'%'
+  	</select>
+  	<!-- 게시판검색2 -->
+  	<select id="search2" parameterType="String" resultType="board">
+  		SELECT * FROM BOARDlISTT WHERE BTITLE LIKE '%'||#{keyword}||'%'
+  	</select>
+  	<!-- 게시판검색3 -->
+  	<select id="search" resultType="board">
+  		<choose>
+  		<when test="type=='BWRITER'">
+  			SELECT * FROM BOARDLISTT WHERE BWRITER LIKE '%'||#{keyword}||'%'
+  		</when>
+  		<when test="type=='BTITLE'">
+  			SELECT * FROM BOARDLISTT WHERE BTITLE LIKE '%'||#{keyword}||'%'
+  		</when>
+  		</choose>
+ 
+  	</select>
+ 	
+ </mapper>
